@@ -3,6 +3,8 @@ name: CI
 on:
   watch:
     types: started
+  workflow_dispatch:
+
 jobs:
   prepare_release:
     runs-on: ubuntu-20.04
