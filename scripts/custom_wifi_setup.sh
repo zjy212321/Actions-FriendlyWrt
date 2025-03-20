@@ -1,6 +1,6 @@
 #!/bin/bash
 echo ">>> Setting default WiFi..."
-WIRELESS_CFG="package/base-files/files/etc/config/wireless"
+WIRELESS_CFG="friendlywrt/package/base-files/files/etc/config/wireless"
 
 cat > ${WIRELESS_CFG} <<EOF
 config wifi-device 'radio0'

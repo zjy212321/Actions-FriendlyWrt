@@ -1,21 +1,27 @@
 #!/bin/bash
 echo ">>> Setting up OpenClash..."
-# 添加OpenClash feed
-echo "src-git openclash https://github.com/vernesong/OpenClash.git" >> feeds.conf.default
 
-# 更新并安装
-./scripts/feeds update openclash
-./scripts/feeds install -a -p openclash
+# {{ Add OpenClash
+(cd friendlywrt && {
+    # 添加软件源
+    echo "src-git openclash https://github.com/vernesong/OpenClash.git" >> feeds.conf.default
+    
+    # 更新并安装
+    ./scripts/feeds update openclash
+    ./scripts/feeds install -a -p openclash
 
-# 启用配置
-echo "CONFIG_PACKAGE_luci-app-openclash=y" >> .config
-echo "CONFIG_PACKAGE_luci-i18n-openclash-en=y" >> .config
+    mkdir -p package/openclash/files/etc/openclash/config
+})
 
-# 创建配置文件目录
-CLASH_DIR="package/openclash/files/etc/openclash"
-mkdir -p ${CLASH_DIR}/config
+# 写入编译选项
+cat >> configs/rockchip/01-nanopi <<EOL
+CONFIG_PACKAGE_luci-app-openclash=y
+CONFIG_PACKAGE_luci-i18n-openclash-zh-cn=y
+CONFIG_PACKAGE_coreutils-nohup=y
+EOL
 
-# 添加默认配置文件
+# 设置默认配置文件
+CLASH_DIR="friendlywrt/package/openclash/files/etc/openclash"
 cat > ${CLASH_DIR}/config/config.yaml <<EOF
 # OpenClash 默认配置
 mixed-port: 7890
@@ -26,6 +32,8 @@ log-level: info
 EOF
 
 # 设置开机自启
-CLASH_INIT="package/openclash/files/etc/init.d/openclash"
-sed -i '/START=95/i\START=90' ${CLASH_INIT}
-ln -sf ../init.d/openclash package/openclash/files/etc/rc.d/S90openclash 2>/dev/null
+(cd friendlywrt && {
+    ln -sf ../init.d/openclash package/openclash/files/etc/rc.d/S90openclash 2>/dev/null
+    sed -i 's/START=95/START=90/' package/openclash/files/etc/init.d/openclash
+})
+# }}
