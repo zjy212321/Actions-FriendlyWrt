@@ -80,6 +80,11 @@ jobs:
         source ../scripts/add_packages.sh
         source ../scripts/custome_config.sh
 
+        echo ">>> Applying custom configurations..."
+        source ../scripts/custom_wifi_setup.sh
+        source ../scripts/custom_theme_lang.sh
+        source ../scripts/custom_openclash.sh
+
     - name: Prepare dot config and feeds
       run: |
         cd project
