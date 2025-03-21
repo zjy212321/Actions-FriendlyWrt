@@ -6,6 +6,7 @@ WIRELESS_CFG="friendlywrt/package/base-files/files/etc/config/wireless"
 cat > ${WIRELESS_CFG} <<EOF
 config wifi-device 'radio0'
     option type 'mac80211'
+    option band '5g'
     option channel '161'
     option path 'platform/ff5f0000.dwmmc/mmc_host/mmc1:0001/mmc1:0001:1'
     option htmode 'VHT80'
