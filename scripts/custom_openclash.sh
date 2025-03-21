@@ -1,39 +1,31 @@
 #!/bin/bash
 echo ">>> Setting up OpenClash..."
 
-# {{ Add OpenClash
-(cd friendlywrt && {
-    # 添加软件源
-    echo "src-git openclash https://github.com/vernesong/OpenClash.git" >> feeds.conf.default
-    
-    # 更新并安装
-    ./scripts/feeds update openclash
-    ./scripts/feeds install -a -p openclash
-
-    mkdir -p package/openclash/files/etc/openclash/config
+# Install openclash
+(cd friendlywrt/package && {
+git clone --depth 1 -b master --single-branch https://github.com/vernesong/OpenClash.git 
+mv OpenClash/luci-app-openclash ./luci-app-openclash
+rm -rf OpenClash
 })
 
-# 写入编译选项
-cat >> configs/rockchip/01-nanopi <<EOL
-CONFIG_PACKAGE_luci-app-openclash=y
-CONFIG_PACKAGE_luci-i18n-openclash-zh-cn=y
-CONFIG_PACKAGE_coreutils-nohup=y
-EOL
+# Install openclash core
+( cd friendlywrt/package && {
+mkdir -p base-files/files/etc/openclash/core
+CLASH_DEV_URL="https://raw.githubusercontent.com/vernesong/OpenClash/master/core-lateset/dev/clash-linux-armv8.tar.gz"
+CLASH_TUN_URL=$(curl -fsSL https://api.github.com/repos/vernesong/OpenClash/contents/core-lateset/premium | grep download_url | grep $1 | awk -F '"' '{print $4}')
+CLASH_META_URL="https://raw.githubusercontent.com/vernesong/OpenClash/master/core-lateset/meta/clash-linux-armv8.tar.gz"
+wget -qO- $CLASH_DEV_URL | tar xOvz > base-files/files/etc/openclash/core/clash
+wget -qO- $CLASH_TUN_URL | gunzip -c > base-files/files/etc/openclash/core/clash_tun
+wget -qO- $CLASH_META_URL | tar xOvz > base-files/files/etc/openclash/core/clash_meta
+chmod +x base-files/files/etc/openclash/core/clash*
+})
 
-# 设置默认配置文件
-CLASH_DIR="friendlywrt/package/openclash/files/etc/openclash"
-cat > ${CLASH_DIR}/config/config.yaml <<EOF
-# OpenClash 默认配置
-mixed-port: 7890
-redir-port: 7892
-tproxy-port: 7893
-mode: Rule
-log-level: info
+# Set default openclash config
+mv ../scripts/openclash-config/openclash friendlywrt/package/base-files/files/etc/openclash.config
+mv ../scripts/openclash-config/config.yaml friendlywrt/package/base-files/files/etc/openclash.config.yaml
+OPENCLASH_CFG="friendlywrt/package/base-files/files/etc/uci-defaults/99_openclash"
+cat > ${OPENCLASH_CFG} <<EOF
+mv -f /etc/openclash.config /etc/config/openclash
+mv -f /etc/openclash.config.yaml /etc/openclash/config/config.yaml
+/etc/init.d/openclash restart
 EOF
-
-# 设置开机自启
-(cd friendlywrt && {
-    ln -sf ../init.d/openclash package/openclash/files/etc/rc.d/S90openclash 2>/dev/null
-    sed -i 's/START=95/START=90/' package/openclash/files/etc/init.d/openclash
-})
-# }}
