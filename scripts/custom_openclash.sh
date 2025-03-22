@@ -3,7 +3,7 @@ echo ">>> Setting up OpenClash..."
 
 # Install openclash
 (cd friendlywrt && {
-    echo "src-git openclash https://github.com/vernesong/OpenClash.git" >> feeds.conf.default
+    echo "src-git openclash https://github.com/vernesong/OpenClash.git;v0.45.35-beta" >> feeds.conf.default    
     ./scripts/feeds update openclash
     ./scripts/feeds install -a -p openclash
 })
