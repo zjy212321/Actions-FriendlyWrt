@@ -19,8 +19,8 @@ echo ">>> Add luci-theme-argon..."
 
 # Install luci-theme-argon
 (cd friendlywrt && {
-    echo "src-git argon https://github.com/jerrykuku/luci-theme-argon.git" >> feeds.conf.default    
-    ./scripts/feeds update argon
+    echo "src-git luci-theme-argon https://github.com/jerrykuku/luci-theme-argon.git" >> feeds.conf.default    
+    ./scripts/feeds update luci-theme-argon
     ./scripts/feeds install luci-theme-argon
 })
 THEME_CFG="friendlywrt/package/base-files/files/etc/uci-defaults/99_THEME"
