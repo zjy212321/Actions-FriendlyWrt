@@ -15,18 +15,13 @@ EOL
 # }}
 
 # {{ Add luci-theme-argon
-echo ">>> Add luci-theme-argon..."
-
-# Install luci-theme-argon
-(cd friendlywrt && {
-    echo 'src-git jerryk https://github.com/jerrykuku/openwrt-package' >> feeds.conf.default
-    ./scripts/feeds clean
-    ./scripts/feeds update -a
-    ./scripts/feeds install -a
-})
+# Install luci-theme-argon and set theme
+mv ../scripts/openclash-config/luci-theme-argon_2.3.2-r20250207_all.ipk friendlywrt/package/base-files/files/etc/luci-theme-argon_2.3.2-r20250207_all.ipk
 THEME_CFG="friendlywrt/package/base-files/files/etc/uci-defaults/99_THEME"
 cat > ${THEME_CFG} <<EOF
 #!/bin/sh
+opkg install /etc/luci-theme-argon*.ipk
 uci set luci.main.mediaurlbase="/luci-static/argon"
 uci commit luci
 EOF
+
