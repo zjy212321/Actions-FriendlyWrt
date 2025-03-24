@@ -1,7 +1,17 @@
 #!/bin/bash
 echo ">>> Setting up OpenClash..."
 
- 
+# Install openclash
+ (cd friendlywrt && {
+     echo "src-git openclash https://github.com/vernesong/OpenClash.git" >> feeds.conf.default    
+     ./scripts/feeds update openclash
+     ./scripts/feeds install -a -p openclash
+ })
+ cat >> configs/rockchip/01-nanopi <<EOL
+ CONFIG_PACKAGE_luci-app-openclash=y
+ CONFIG_PACKAGE_luci-compat=y
+ EOL
+
 
 # Install openclash core
 # ( cd friendlywrt/package && {
