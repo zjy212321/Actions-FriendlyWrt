@@ -87,7 +87,7 @@ jobs:
         echo ">>> Applying custom configurations..."
         source ../scripts/custom_wifi_setup.sh
         source ../scripts/custom_lang.sh
-        # source ../scripts/custom_openclash.sh
+        source ../scripts/custom_openclash.sh
 
     - name: Prepare dot config and feeds
       run: |
