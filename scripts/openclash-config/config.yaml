@@ -11,7 +11,7 @@ proxy-providers:
       Authorization:
         # Input your ID below. For example: if your ID is UGV0ZXI6cGFzc3dvcmQ=, 
         # the filled result should be "Basic UGV0ZXI6cGFzc3dvcmQ="
-        - "Basic Your_ID"  
+        - "Basic UGV0ZXI6cGFzc3dvcmQ="  
 
 # Specify the UA when downloading the subscription
 # global-ua: clash
