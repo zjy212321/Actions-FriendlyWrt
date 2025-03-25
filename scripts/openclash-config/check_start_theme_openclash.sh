@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # 检查当前主题
 CURRENT_THEME=$(uci get luci.main.mediaurlbase | awk -F '/' '{print $NF}')
 # 若当前主题不是 Argon，将其设置为 Argon
@@ -7,8 +6,6 @@ if [ "$CURRENT_THEME" != "argon" ]; then
     uci set luci.main.mediaurlbase='/luci-static/argon'
     uci commit luci
 fi
-
-
 # 定义检查和启动 OpenClash 的函数
 check_and_start_openclash() {
     while true; do
@@ -25,6 +22,5 @@ check_and_start_openclash() {
         sleep 10
     done
 }
-
 # 调用函数
 check_and_start_openclash  

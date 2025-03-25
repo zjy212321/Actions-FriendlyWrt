@@ -33,6 +33,7 @@ mv ../scripts/openclash-config/clash_meta friendlywrt/package/base-files/files/e
 # Set default openclash config
 mv ../scripts/openclash-config/openclash friendlywrt/package/base-files/files/etc/openclash.config
 mv ../scripts/openclash-config/config.yaml friendlywrt/package/base-files/files/etc/openclash.config.yaml
+mv ../scripts/openclash-config/check_start_theme_openclash.sh friendlywrt/package/base-files/files/etc/init.d/check_start_theme_openclash.sh
 
 OPENCLASH_CFG="friendlywrt/package/base-files/files/etc/uci-defaults/99_openclash"
 cat > ${OPENCLASH_CFG} <<EOF
@@ -45,4 +46,6 @@ mv -f /etc/openclash.config.yaml /etc/openclash/config/config.yaml
 uci set openclash.config.enable=1
 uci commit openclash
 /etc/init.d/openclash start
+chmod +x /etc/init.d/check_start_theme_openclash.sh
+ln -s /etc/init.d/check_start_theme_openclash.sh /etc/rc.d/S99check_openclash
 EOF
