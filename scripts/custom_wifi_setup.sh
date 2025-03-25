@@ -37,7 +37,9 @@ uci set wireless.@wifi-iface[0].encryption='psk2'  # 使用WPA2加密
 uci set wireless.@wifi-iface[0].key='password'
 # 应用配置
 uci commit wireless
-
+# 重置IP地址
+uci set network.lan.ipaddr='192.168.18.1'
+uci commit network
 # 重启网络服务以应用更改
 /etc/init.d/network reload
 EOF
