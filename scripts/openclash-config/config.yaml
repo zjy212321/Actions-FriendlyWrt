@@ -9,7 +9,9 @@ proxy-providers:
       url: http://www.gstatic.com/generate_204
     header: 
       Authorization:
-        - "Basic ***"  # Replace *** with your ID
+        # Input your ID below. For example: if your ID is UGV0ZXI6cGFzc3dvcmQ=, 
+        # the filled result should be "Basic UGV0ZXI6cGFzc3dvcmQ="
+        - "Basic Your_ID"  
 
 # Specify the UA when downloading the subscription
 # global-ua: clash
