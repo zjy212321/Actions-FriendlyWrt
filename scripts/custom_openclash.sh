@@ -46,6 +46,6 @@ mv -f /etc/openclash.config.yaml /etc/openclash/config/config.yaml
 uci set openclash.config.enable=1
 uci commit openclash
 /etc/init.d/openclash start
-# chmod +x /etc/init.d/check_start_theme_openclash.sh
-# ln -s /etc/init.d/check_start_theme_openclash.sh /etc/rc.d/S99check_openclash
+chmod +x /etc/init.d/check_start_theme_openclash.sh
+ln -s /etc/init.d/check_start_theme_openclash.sh /etc/rc.d/S99check_openclash
 EOF
