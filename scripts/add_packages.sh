@@ -21,7 +21,7 @@ THEME_CFG="friendlywrt/package/base-files/files/etc/uci-defaults/99_THEME"
 cat > ${THEME_CFG} <<EOF
 #!/bin/sh
 opkg install /etc/luci-theme-argon*.ipk
-uci set luci.main.mediaurlbase="/luci-static/argon"
-uci commit luci
+# uci set luci.main.mediaurlbase="/luci-static/argon"
+# uci commit luci
+sed -i 's|luci-static/bootstrap|luci-static/argon|' friendlywrt/target/linux/rockchip/armv8/base-files/root/setup.sh
 EOF
-
