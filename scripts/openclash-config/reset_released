@@ -1,10 +1,10 @@
 #!/bin/sh
 pressed=$(cat /tmp/reset_pressed_time)
+rm -f /tmp/reset_pressed_time
 current=$(date +%s)
 duration=$((current - pressed))
 if [ $duration -ge 5 ]; then
     # 长按（>=5秒）：恢复出厂设置
     firstboot && reboot -f &
 fi
-
 return 0
