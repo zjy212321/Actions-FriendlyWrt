@@ -23,5 +23,5 @@ cat > ${THEME_CFG} <<EOF
 opkg install /etc/luci-theme-argon*.ipk
 # uci set luci.main.mediaurlbase="/luci-static/argon"
 # uci commit luci
-sed -i 's|luci-static/bootstrap|luci-static/argon|' friendlywrt/target/linux/rockchip/armv8/base-files/root/setup.sh
+sed -i 's|luci-static/bootstrap|luci-static/argon|' /root/setup.sh
 EOF
