@@ -34,19 +34,33 @@ mv ../scripts/openclash-config/clash_meta friendlywrt/package/base-files/files/e
 mv ../scripts/openclash-config/openclash friendlywrt/package/base-files/files/etc/openclash.config
 mv ../scripts/openclash-config/config.yaml friendlywrt/package/base-files/files/etc/openclash.config.yaml
 mv ../scripts/openclash-config/check_start_theme_openclash.sh friendlywrt/package/base-files/files/etc/check_start_theme_openclash.sh
+# Set reset button config
+mv ../scripts/openclash-config/reset_pressed friendlywrt/package/base-files/files/etc/reset_pressed
+mv ../scripts/openclash-config/reset_released friendlywrt/package/base-files/files/etc/reset_released
+mv ../scripts/openclash-config/example.conf friendlywrt/package/base-files/files/etc/example.conf
+
 
 OPENCLASH_CFG="friendlywrt/package/base-files/files/etc/uci-defaults/99_openclash"
 cat > ${OPENCLASH_CFG} <<EOF
 #!/bin/sh
+mv -f /etc/reset_pressed /etc/rc.button/reset_pressed
+mv -f /etc/reset_released /etc/rc.button/reset_released
+mv -f /etc/example.conf /etc/triggerhappy/triggers.d/example.conf
+chmod +x /etc/rc.button/reset_pressed
+chmod +x /etc/rc.button/reset_released
+chmod +x /etc/triggerhappy/triggers.d/example.conf
+
 mv -f /etc/clash_tmp /etc/openclash/core/clash
 mv -f /etc/clash_tun_tmp /etc/openclash/core/clash_tun
 mv -f /etc/clash_meta_tmp /etc/openclash/core/clash_meta
 mv -f /etc/openclash.config /etc/config/openclash
 mv -f /etc/openclash.config.yaml /etc/openclash/config/config.yaml
+
 /etc/init.d/openclash stop
 uci set openclash.config.enable=1
 uci commit openclash
 /etc/init.d/openclash start
+
 chmod +x /etc/check_start_theme_openclash.sh
 ln -s /etc/check_start_theme_openclash.sh /etc/rc.d/S99check_openclash
 EOF

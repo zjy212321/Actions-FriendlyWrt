@@ -1,0 +1,3 @@
+#!/bin/sh
+date +%s > /tmp/reset_pressed_time
+return 0
