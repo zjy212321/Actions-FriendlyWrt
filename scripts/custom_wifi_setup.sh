@@ -42,4 +42,5 @@ uci set network.lan.ipaddr='192.168.18.1'
 uci commit network
 # 重启网络服务以应用更改
 /etc/init.d/network reload
+rm -rf /etc/uci-defaults/99_wifi
 EOF

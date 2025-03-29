@@ -56,11 +56,10 @@ mv -f /etc/clash_meta_tmp /etc/openclash/core/clash_meta
 mv -f /etc/openclash.config /etc/config/openclash
 mv -f /etc/openclash.config.yaml /etc/openclash/config/config.yaml
 
-/etc/init.d/openclash stop
-uci set openclash.config.enable=1
-uci commit openclash
-/etc/init.d/openclash start
- 
+sed -i 's/function init_button()/function init_start_openclash(){\n    \/etc\/init.d\/openclash stop\n    uci set openclash.config.enable=1\n    uci set openclash.config.config_path="\/etc\/openclash\/config\/config.yaml"\n    uci commit openclash\n    \/etc\/init.d\/openclash start\n}\n\nfunction init_button()/g' /root/setup.sh
+sed -i 's/	init_button/	init_button\n	init_start_openclash/' /root/setup.sh
+rm -rf /etc/uci-defaults/99_openclash
+
 # chmod +x /etc/check_start_theme_openclash.sh
 # ln -s /etc/check_start_theme_openclash.sh /etc/rc.d/S99check_openclash
 EOF
