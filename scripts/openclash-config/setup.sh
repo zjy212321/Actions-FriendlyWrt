@@ -276,6 +276,7 @@ if [ "${1}" = "all" ]; then
 	init_luci_stat
 	init_watchcat
 	init_openssh
+    init_wifi
 	init_theme
 	init_root_home
 	init_root_vimrc
